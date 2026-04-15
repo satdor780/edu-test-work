@@ -1,0 +1,99 @@
+.card {
+  border-radius: 25px;
+  box-shadow: 0px 1px 8px 0px #0000001a;
+  padding: 24px 16px;
+  max-width: 345px;
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.card.card__image {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 16px;
+}
+
+.card.card__image.card__image_multi {
+  align-items: start;
+}
+
+.card_multiline {
+  padding: 16px;
+}
+
+.card__text {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 140%;
+  letter-spacing: 0px;
+  vertical-align: middle;
+  margin: 0;
+  display: inline-block;
+  width: 100%;
+}
+
+.card__counter {
+  position: absolute;
+  bottom: 10px;
+  right: 15.5px;
+  border: 0.5px solid #b4b4b4;
+  border-radius: 30px;
+  padding: 0 9px;
+  height: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #b4b4b4;
+}
+
+.card__counter.active {
+  background: linear-gradient(239.93deg, #3fccff -26.89%, #068dfb 70.78%);
+  box-shadow: 0px 1px 5.3px 0px #149dff36;
+  color: #fff;
+}
+
+.card_multiline_last_line_filled .card__text {
+  padding-bottom: 20px;
+}
+
+.image__block {
+  width: 59px;
+  height: 58px;
+  min-width: 59px;
+  border-radius: 13px;
+  overflow: hidden;
+}
+
+.image__block img {
+  width: 100%;
+  height: 100%;
+}
+
+.card__more_button {
+  position: absolute;
+  top: 9px;
+  right: 18.5px;
+  width: 16px;
+  height: 4px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & svg {
+    width: 16px;
+    height: 4px;
+    display: block;
+  }
+}
