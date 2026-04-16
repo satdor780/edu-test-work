@@ -32,6 +32,10 @@
   margin: 0;
   display: inline-block;
   width: 100%;
+
+  overflow-wrap: break-word;
+  word-break: break-word; /* фолбэк для старых браузеров */
+  min-width: 0; /* важно если flex/grid контейнер */
 }
 
 .card__counter {

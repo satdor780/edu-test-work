@@ -15,12 +15,16 @@ export const Card: FC<{
   const isNotification = item.blocks.startsWith("+");
   const counterVisible = blocksValue > 0;
 
+  const blocks = item.blocks.slice(0, 4)
+
+  const toNewLinePercent = blocks.length === 1 ? 0.93 :(100 - (blocks.length * 4.5)) / 100
+
   return (
     <div className={`${styles.card} 
       ${item.image ? styles.card__image: ''} 
       ${lineCount > 2 ? styles.card__image_multi: ''} 
-      ${lineCount >= 2 || lastLineFillPercent >= 0.8 ? styles.card_multiline : ''} 
-      ${lastLineFillPercent >= 0.8 && counterVisible ? styles.card_multiline_last_line_filled : ''}`}
+      ${lineCount >= 2 || lastLineFillPercent >= toNewLinePercent ? styles.card_multiline : ''} 
+      ${lastLineFillPercent >= toNewLinePercent && counterVisible ? styles.card_multiline_last_line_filled : ''}`}
     >
       
       {item.image && (
@@ -32,7 +36,7 @@ export const Card: FC<{
       <p className={styles.card__text} ref={ref}>{item.text}</p>
 
       {counterVisible && (
-        <div className={`${styles.card__counter} ${isNotification ? styles.active : ""}`}>{item.blocks.slice(0, 4)}</div>
+        <div className={`${styles.card__counter} ${isNotification ? styles.active : ""}`}>{blocks}</div>
       )}
       
       <button className={styles.card__more_button}><MoreIcon /></button>
