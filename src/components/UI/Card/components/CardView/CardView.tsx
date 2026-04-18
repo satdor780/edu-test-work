@@ -10,7 +10,6 @@ export const CardView: FC<{
   item: ICardType;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ item, setEdit }) => {
-
   switch (item.type) {
     case "image_top":
       return <BigImageView item={item} setEdit={setEdit} type="top" />;
@@ -26,7 +25,6 @@ export const CardView: FC<{
       return <DefaultView item={item} setEdit={setEdit} />;
   }
 };
-
 
 const DefaultView: FC<{
   item: ICardType;
@@ -82,7 +80,7 @@ const DefaultView: FC<{
 const BigImageView: FC<{
   item: ICardType;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
-  type: 'top' | 'bottom'
+  type: "top" | "bottom";
 }> = ({ item, setEdit, type }) => {
   const { ref, lineCount, lastLineFillPercent } = useTextLayout();
 
@@ -100,8 +98,8 @@ const BigImageView: FC<{
       className={`
         ${styles.bigImage} 
         ${styles[type]} 
-        ${type === 'top' && (lineCount >= 2 || lastLineFillPercent >= toNewLinePercent) ? styles.card_multiline : ""} 
-        ${type === 'top' && (lastLineFillPercent >= toNewLinePercent && counterVisible) ? styles.card_multiline_last_line_filled : ""}
+        ${type === "top" && (lineCount >= 2 || lastLineFillPercent >= toNewLinePercent) ? styles.card_multiline : ""} 
+        ${type === "top" && lastLineFillPercent >= toNewLinePercent && counterVisible ? styles.card_multiline_last_line_filled : ""}
       `}
     >
       <button
@@ -111,7 +109,7 @@ const BigImageView: FC<{
         <MoreIcon />
       </button>
       <div className={styles.imageContainer}>
-        <img src='/placeholder-image.jpg' />
+        <img src="/placeholder-image.jpg" />
       </div>
       {counterVisible && (
         <div
@@ -126,5 +124,5 @@ const BigImageView: FC<{
         </p>
       </div>
     </div>
-  )
-}
+  );
+};

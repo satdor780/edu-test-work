@@ -13,7 +13,11 @@ export const CardEdit: FC<{
 }> = ({ setEdit, item }) => {
   const updateText = useNotesStore((s) => s.updateText);
 
-  const [text, setText] = useState(item.text)
+  const currentType = useNotesStore(
+    (s) => s.notes.find((n) => n.id === item.id)?.type ?? item.type,
+  );
+
+  const [text, setText] = useState(item.text);
 
   const saveChanges = () => {
     updateText(item.id, text);
@@ -21,19 +25,34 @@ export const CardEdit: FC<{
   };
 
   const renderEditor = () => {
-    switch (item.type) {
+    switch (currentType) {
       case "image_top":
-        return <EditBigImage value={text} setText={setText} type="inputBottom" />;
-  
+        return (
+          <EditBigImage value={text} setText={setText} type="inputBottom" />
+        );
+
       case "image_bottom":
         return <EditBigImage value={text} setText={setText} type="inputTop" />;
-  
+
       case "image_left":
-        return <EditDefault value={text} setText={setText} type="image" />;
-  
+        return (
+          <EditDefault
+            key={currentType}
+            value={text}
+            setText={setText}
+            type="image"
+          />
+        );
       case "default":
       default:
-        return <EditDefault value={text} setText={setText} type="text" />;
+        return (
+          <EditDefault
+            key={currentType}
+            value={text}
+            setText={setText}
+            type="text"
+          />
+        );
     }
   };
 
@@ -45,55 +64,63 @@ export const CardEdit: FC<{
         </button>
 
         <div className={styles.cardHeaderLast}>
-          <CardTypeSelector />
+          <CardTypeSelector itemId={item.id} />
 
-          <button className={`${styles.backButton} ${text.length > 0 ? styles.active: ''}`} onClick={saveChanges}>
+          <button
+            className={`${styles.backButton} ${text.length > 0 ? styles.active : ""}`}
+            onClick={saveChanges}
+          >
             <ArrowIcon />
           </button>
         </div>
-
-       
       </div>
       {renderEditor()}
     </div>
   );
 };
 
-
 const EditBigImage: FC<{
   value: string;
   setText: React.Dispatch<React.SetStateAction<string>>;
-  type?: 'inputBottom' | 'inputTop'
-}> = ({ value, setText, type = 'inputTop' }) => {
+  type?: "inputBottom" | "inputTop";
+}> = ({ value, setText, type = "inputTop" }) => {
   return (
-    <div className={`${styles.bigImageContainer} ${type === 'inputBottom' ? styles.bottom: ''}`}>
-      <input type="text" className={styles.bigImageInput} value={value} onChange={(e) => setText(e.target.value)} placeholder="Write your idea!"/>
+    <div
+      className={`${styles.bigImageContainer} ${type === "inputBottom" ? styles.bottom : ""}`}
+    >
+      <input
+        type="text"
+        className={styles.bigImageInput}
+        value={value}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Write your idea!"
+      />
       <button className={styles.bigImage}>
-        <img src="/add-image.svg" alt='add image' />
+        <img src="/add-image.svg" alt="add image" />
       </button>
     </div>
-  )
-}
-
+  );
+};
 
 const EditDefault: FC<{
   value: string;
   setText: React.Dispatch<React.SetStateAction<string>>;
-  type?: 'image' | 'text';
-}> = ({ value, setText, type = 'text' }) => {
+  type?: "image" | "text";
+}> = ({ value, setText, type = "text" }) => {
+  console.log(type);
   const { ref, lineCount } = useTextLayout();
-  const initialized = useRef(false); // ← флаг: инициализировали ли уже
+  const initialized = useRef(false);
 
   const createImageWrapper = () => {
-    const wrapper = document.createElement('div');
-    wrapper.className = styles.imageWrapper || 'imageWrapper';
-    wrapper.contentEditable = 'false'; // ← браузер не даст удалить/редактировать
-    wrapper.dataset.protected = 'true'; // ← маркер для поиска
+    const wrapper = document.createElement("div");
+    wrapper.className = styles.imageWrapper || "imageWrapper";
+    wrapper.contentEditable = "false";
+    wrapper.dataset.protected = "true";
 
-    const img = document.createElement('img');
-    img.src = '/add-image.svg';
-    img.alt = 'add image';
-    img.className = styles.inlineImage || 'inlineImage';
+    const img = document.createElement("img");
+    img.src = "/add-image.svg";
+    img.alt = "add image";
+    img.className = styles.inlineImage || "inlineImage";
 
     wrapper.appendChild(img);
     return wrapper;
@@ -102,28 +129,32 @@ const EditDefault: FC<{
   useEffect(() => {
     const el = ref.current;
     if (!el || initialized.current) return;
-  
+
     initialized.current = true;
-    el.innerHTML = value || '';
-  
-    if (type === 'image') {
+    el.innerHTML = value || "";
+
+    if (type === "image") {
       el.prepend(createImageWrapper());
+    } else {
+      el.querySelector("[data-protected]")?.remove(); // ←
     }
-  
-    // ← начальное состояние плейсхолдера
-    el.dataset.empty = el.innerText.trim() === '' ? 'true' : 'false';
+
+    el.dataset.empty = el.innerText.trim() === "" ? "true" : "false";
   }, []);
 
   const handleInput = () => {
     const el = ref.current;
     if (!el) return;
-  
-    if (type === 'image' && !el.querySelector('[data-protected]')) {
+
+    if (type === "image" && !el.querySelector("[data-protected]")) {
       el.prepend(createImageWrapper());
     }
-  
-    if (type === 'image' && el.lastChild === el.querySelector('[data-protected]')) {
-      const br = document.createElement('br');
+
+    if (
+      type === "image" &&
+      el.lastChild === el.querySelector("[data-protected]")
+    ) {
+      const br = document.createElement("br");
       el.appendChild(br);
       const range = document.createRange();
       const sel = window.getSelection();
@@ -132,18 +163,18 @@ const EditDefault: FC<{
       sel?.removeAllRanges();
       sel?.addRange(range);
     }
-  
+
     const text = el.innerText.trim();
-    el.dataset.empty = text === '' ? 'true' : 'false'; // ← обновляем
+    el.dataset.empty = text === "" ? "true" : "false";
     setText(text);
   };
 
-  const to2Lines = type === 'image' ? (lineCount / 2) > 2: lineCount > 2
+  const to2Lines = type === "image" ? lineCount / 2 > 2 : lineCount > 2;
 
   return (
     <div
       ref={ref}
-      className={`${styles.textarea} ${styles[type]} ${to2Lines ? styles.big : ''}`}
+      className={`${styles.textarea} ${styles[type]} ${to2Lines ? styles.big : ""}`}
       contentEditable
       suppressContentEditableWarning
       onInput={handleInput}

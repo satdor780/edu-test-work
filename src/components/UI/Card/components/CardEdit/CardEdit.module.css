@@ -4,7 +4,6 @@
   max-width: 345px;
   position: relative;
   box-sizing: border-box;
-  /* overflow: hidden; */
   animation: fadeSlideIn 0.25s ease forwards;
 }
 
@@ -57,7 +56,7 @@
   height: 72px;
   min-height: 72px;
   border-radius: 25px;
-  padding: 25px 16px 27px; /* ← добавил только это, чтобы было место под фото */
+  padding: 25px 16px 27px;
   border: 1px solid #34b8ff;
   font-weight: 400;
   font-size: 14px;
@@ -86,40 +85,33 @@
   display: block;
 }
 
-.textarea.image
-
-/* Обёртка фото — оставил почти как у тебя */
-.imageWrapper {
+.textarea.image .imageWrapper {
   float: left;
   border-radius: 11px;
   width: 58px;
   min-width: calc(58px + 8px);
   height: 58px;
-  display: flex !important; /* ← исправил конфликт display */
+  display: flex !important;
   justify-content: center;
   align-items: center;
   background: #f1f6fd;
   padding: 0 8px;
   margin-right: 8px;
-  /* margin-bottom: 8px; */
 }
 
-/* Главное — полностью запрещаем клик и выделение */
 .imageWrapper,
 .imageWrapper * {
   pointer-events: none !important;
   user-select: none !important;
-  contenteditable: false !important; /* ← добавили */
-  -webkit-user-modify: read-only; /* дополнительно для старых браузеров */
+  contenteditable: false !important;
+  -webkit-user-modify: read-only;
 }
 
-/* Оставил твои стили для картинки без изменений */
 .inlineImage {
   object-fit: cover;
   display: block;
 }
 
-/* Дополнительная защита */
 .textarea .imageWrapper {
   position: relative;
   z-index: 2;
