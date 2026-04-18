@@ -4,16 +4,38 @@ import styles from "./CardEdit.module.css";
 import { useEffect, useState, type FC } from "react";
 import { useTextLayout } from "@/hooks";
 import { CardTypeSelector } from "../CardTypeSelector/CardTypeSelector";
+import type { ICardType } from "@/types";
+import { useNotesStore } from "@/store";
 
 export const CardEdit: FC<{
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
-  value: string
-}> = ({ setEdit, value }) => {
+  item: ICardType;
+}> = ({ setEdit, item }) => {
+  const updateText = useNotesStore((s) => s.updateText);
+
+  const [text, setText] = useState(item.text)
+
   const saveChanges = () => {
+    updateText(item.id, text);
     setEdit(false);
   };
 
-  const [text, setText] = useState(value)
+  const renderEditor = () => {
+    switch (item.type) {
+      case "image_top":
+        return <EditBigImage value={text} setText={setText} type="inputBottom" />;
+  
+      case "image_bottom":
+        return <EditBigImage value={text} setText={setText} type="inputTop" />;
+  
+      case "image_left":
+        return <EditDefault value={text} setText={setText} type="image" />;
+  
+      case "default":
+      default:
+        return <EditDefault value={text} setText={setText} type="text" />;
+    }
+  };
 
   return (
     <div className={styles.card}>
@@ -32,8 +54,7 @@ export const CardEdit: FC<{
 
        
       </div>
-      <EditDefault setText={setText} value={value} type='image' />
-      {/* <EditBigImage setText={setText} value={value} type="inputBottom" /> */}
+      {renderEditor()}
     </div>
   );
 };

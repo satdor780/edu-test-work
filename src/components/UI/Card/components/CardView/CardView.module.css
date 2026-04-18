@@ -113,3 +113,80 @@
     display: block;
   }
 }
+
+/* ----- big image block -------- */
+
+.bigImage {
+  border-radius: 25px;
+  box-shadow: 0px 1px 8px 0px #0000001a;
+  /* padding: 24px 16px; */
+  max-width: 345px;
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  animation: fadeSlideIn 0.25s ease forwards;
+  padding-bottom: 16px !important;
+}
+
+.bigImage.bottom {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0 !important;
+}
+
+.bigImage.bottom .cardContent {
+  order: -1;
+}
+
+.bigImage.card_multiline {
+  padding: 0;
+}
+
+.bigImage .imageContainer {
+  height: 181px;
+  width: 100%;
+
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+
+  overflow: hidden;
+}
+
+.bigImage.bottom .imageContainer {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 24px;
+  border-bottom-left-radius: 24px;
+}
+
+.bigImage .imageContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bigImage.top .card__more_button {
+  width: 28px;
+  height: 26px;
+  border-radius: 11px;
+  background: #8585854d;
+  backdrop-filter: blur(4.4px);
+  top: 12px;
+  right: 12px;
+}
+
+.bigImage .cardContent {
+  padding: 8px 16px 0 16px;
+}
+
+.bigImage.bottom .cardContent {
+  padding: 16.5px 16px 8px;
+}
+
+.bigImage.bottom .card__counter {
+  background: #3f3f3f66;
+  backdrop-filter: blur(9px);
+  border: none;
+}

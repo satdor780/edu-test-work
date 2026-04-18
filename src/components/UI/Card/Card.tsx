@@ -10,7 +10,7 @@ export const Card: FC<{ item: ICardType }> = ({ item }) => {
   return (
     <div className={styles.wraps}>
       {edit ? (
-        <CardEdit key="edit" setEdit={setEdit} value={item.text} />
+        <CardEdit key="edit" setEdit={setEdit} item={item} />
       ) : (
         <CardView key="view" item={item} setEdit={setEdit} />
       )}
