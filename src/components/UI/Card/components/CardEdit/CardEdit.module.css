@@ -69,11 +69,31 @@
   white-space: pre-wrap;
 }
 
+.textarea[data-empty="true"]::after {
+  content: attr(data-placeholder);
+  color: #b7b7b7;
+  pointer-events: none;
+}
+
+.textarea.image {
+  padding: 16px !important;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+}
+
+.textarea.image.big {
+  display: block;
+}
+
+.textarea.image
+
 /* Обёртка фото — оставил почти как у тебя */
 .imageWrapper {
   float: left;
   border-radius: 11px;
   width: 58px;
+  min-width: calc(58px + 8px);
   height: 58px;
   display: flex !important; /* ← исправил конфликт display */
   justify-content: center;
@@ -81,7 +101,7 @@
   background: #f1f6fd;
   padding: 0 8px;
   margin-right: 8px;
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
 }
 
 /* Главное — полностью запрещаем клик и выделение */
