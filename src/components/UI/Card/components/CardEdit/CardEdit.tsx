@@ -107,7 +107,7 @@ const EditDefault: FC<{
   setText: React.Dispatch<React.SetStateAction<string>>;
   type?: "image" | "text";
 }> = ({ value, setText, type = "text" }) => {
-  console.log(type);
+
   const { ref, lineCount } = useTextLayout();
   const initialized = useRef(false);
 
