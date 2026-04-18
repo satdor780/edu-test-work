@@ -1,0 +1,176 @@
+.card {
+  border-radius: 25px;
+  box-shadow: 0px 1px 8px 0px #0000001a;
+  max-width: 345px;
+  position: relative;
+  box-sizing: border-box;
+  /* overflow: hidden; */
+  animation: fadeSlideIn 0.25s ease forwards;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+}
+
+.cardHeader > button {
+  cursor: pointer;
+}
+
+.backButton {
+  width: 24px;
+  height: 24px;
+  border-radius: 21px;
+  background: #dcdcdc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.backButton.active {
+  background: linear-gradient(
+    230.09deg,
+    #2bd1ff -50.42%,
+    #34b8ff 33.26%,
+    #229cfd 113.78%
+  );
+  box-shadow: 0px 1px 5.3px 0px #149dff36;
+}
+
+.textarea {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 72px;
+  min-height: 72px;
+  border-radius: 25px;
+  padding: 25px 16px 27px; /* ← добавил только это, чтобы было место под фото */
+  border: 1px solid #34b8ff;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 140%;
+  color: #4b4b4b;
+  box-sizing: border-box;
+  outline: none;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+/* Обёртка фото — оставил почти как у тебя */
+.imageWrapper {
+  float: left;
+  border-radius: 11px;
+  width: 58px;
+  height: 58px;
+  display: flex !important; /* ← исправил конфликт display */
+  justify-content: center;
+  align-items: center;
+  background: #f1f6fd;
+  padding: 0 8px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+/* Главное — полностью запрещаем клик и выделение */
+.imageWrapper,
+.imageWrapper * {
+  pointer-events: none !important;
+  user-select: none !important;
+  contenteditable: false !important; /* ← добавили */
+  -webkit-user-modify: read-only; /* дополнительно для старых браузеров */
+}
+
+/* Оставил твои стили для картинки без изменений */
+.inlineImage {
+  object-fit: cover;
+  display: block;
+}
+
+/* Дополнительная защита */
+.textarea .imageWrapper {
+  position: relative;
+  z-index: 2;
+}
+.textarea.big {
+  padding: 15px 16px 17px;
+  height: 100%;
+}
+
+.textarea:empty::before {
+  content: attr(data-placeholder);
+  color: #b7b7b7;
+  pointer-events: none;
+}
+
+.cardHeaderLast {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.bigImage {
+  height: 181px;
+  width: 100%;
+  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f1f6fd;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 24px;
+  border-bottom-left-radius: 24px;
+}
+
+.bigImageContainer {
+  border: 1px solid #34b8ff;
+
+  border-radius: 25px;
+}
+
+.bigImageInput {
+  outline: none;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 140%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  padding: 0 15px;
+  margin: 16px 0 8px;
+  color: #4b4b4b;
+  width: 100%;
+}
+
+.bigImageInput::placeholder {
+  color: #b7b7b7;
+}
+
+.bigImageContainer.bottom {
+  display: flex;
+  flex-direction: column;
+}
+
+.bigImageContainer.bottom .bigImage {
+  order: -1;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.bigImageContainer.bottom .bigImageInput {
+  margin: 8px 0 16px;
+}
