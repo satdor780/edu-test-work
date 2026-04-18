@@ -18,7 +18,7 @@ export const CardView: FC<{
       return <BigImageView item={item} setEdit={setEdit} type="bottom" />;
 
     case "image_left":
-      return <DefaultView item={item} setEdit={setEdit} />;
+      return <DefaultView item={item} setEdit={setEdit} toImage />;
 
     case "default":
     default:
@@ -29,7 +29,8 @@ export const CardView: FC<{
 const DefaultView: FC<{
   item: ICardType;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ item, setEdit }) => {
+  toImage?: boolean;
+}> = ({ item, setEdit, toImage }) => {
   const { ref, lineCount, lastLineFillPercent } = useTextLayout();
 
   const blocksValue = parseBlocks(item.blocks);
@@ -41,15 +42,17 @@ const DefaultView: FC<{
   const toNewLinePercent =
     blocks.length === 1 ? 0.93 : (100 - blocks.length * 4.5) / 100;
 
+  const isImage = toImage && item.image;
+
   return (
     <div
       className={`${styles.card} 
-        ${item.image ? styles.card__image : ""} 
+        ${isImage ? styles.card__image : ""} 
         ${lineCount > 2 ? styles.card__image_multi : ""} 
         ${lineCount >= 2 || lastLineFillPercent >= toNewLinePercent ? styles.card_multiline : ""} 
         ${lastLineFillPercent >= toNewLinePercent && counterVisible ? styles.card_multiline_last_line_filled : ""}`}
     >
-      {item.image && (
+      {isImage && (
         <div className={styles.image__block}>
           <img src={item.image} alt="image" />
         </div>

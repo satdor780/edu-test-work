@@ -6,7 +6,6 @@ import {
   CardTypesIcon4,
 } from "@/components/icons";
 import styles from "./CardTypeSelector.module.css";
-import { useNotesStore } from "@/store";
 
 const icons = [CardTypesIcon1, CardTypesIcon2, CardTypesIcon3, CardTypesIcon4];
 
@@ -19,11 +18,11 @@ const CARD_TYPES: CardTypes[] = [
   "image_left",
 ];
 
-export const CardTypeSelector: FC<{ itemId: number }> = ({ itemId }) => {
-  const { notes, updateType } = useNotesStore();
-  const note = notes.find((n) => n.id === itemId);
-  const selected = note?.type ?? "default";
-
+export const CardTypeSelector: FC<{
+  itemId: number;
+  selected: CardTypes;
+  onSelect: (type: CardTypes) => void;
+}> = ({ selected, onSelect }) => {
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -52,7 +51,7 @@ export const CardTypeSelector: FC<{ itemId: number }> = ({ itemId }) => {
               key={i}
               className={`${styles.option} ${selected === CARD_TYPES[i] ? styles.active : ""}`}
               onClick={() => {
-                updateType(itemId, CARD_TYPES[i]);
+                onSelect(CARD_TYPES[i]);
                 setOpen(false);
               }}
             >
@@ -61,7 +60,6 @@ export const CardTypeSelector: FC<{ itemId: number }> = ({ itemId }) => {
           ))}
         </div>
       )}
-
       <button
         className={styles.trigger}
         onClick={() => setOpen((prev) => !prev)}

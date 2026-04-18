@@ -4,7 +4,7 @@ import styles from "./CardEdit.module.css";
 import { useEffect, useRef, useState, type FC } from "react";
 import { useTextLayout } from "@/hooks";
 import { CardTypeSelector } from "../CardTypeSelector/CardTypeSelector";
-import type { ICardType } from "@/types";
+import type { CardTypes, ICardType } from "@/types";
 import { useNotesStore } from "@/store";
 
 export const CardEdit: FC<{
@@ -12,20 +12,19 @@ export const CardEdit: FC<{
   item: ICardType;
 }> = ({ setEdit, item }) => {
   const updateText = useNotesStore((s) => s.updateText);
-
-  const currentType = useNotesStore(
-    (s) => s.notes.find((n) => n.id === item.id)?.type ?? item.type,
-  );
+  const updateType = useNotesStore((s) => s.updateType);
 
   const [text, setText] = useState(item.text);
+  const [pendingType, setPendingType] = useState<CardTypes>(item.type); // ← локально
 
   const saveChanges = () => {
     updateText(item.id, text);
+    updateType(item.id, pendingType); // ← пишем в стор только здесь
     setEdit(false);
   };
 
   const renderEditor = () => {
-    switch (currentType) {
+    switch (pendingType) {
       case "image_top":
         return (
           <EditBigImage value={text} setText={setText} type="inputBottom" />
@@ -37,7 +36,7 @@ export const CardEdit: FC<{
       case "image_left":
         return (
           <EditDefault
-            key={currentType}
+            key={pendingType}
             value={text}
             setText={setText}
             type="image"
@@ -47,7 +46,7 @@ export const CardEdit: FC<{
       default:
         return (
           <EditDefault
-            key={currentType}
+            key={pendingType}
             value={text}
             setText={setText}
             type="text"
@@ -64,7 +63,11 @@ export const CardEdit: FC<{
         </button>
 
         <div className={styles.cardHeaderLast}>
-          <CardTypeSelector itemId={item.id} />
+          <CardTypeSelector
+            itemId={item.id}
+            onSelect={setPendingType}
+            selected={pendingType}
+          />
 
           <button
             className={`${styles.backButton} ${text.length > 0 ? styles.active : ""}`}
@@ -107,7 +110,6 @@ const EditDefault: FC<{
   setText: React.Dispatch<React.SetStateAction<string>>;
   type?: "image" | "text";
 }> = ({ value, setText, type = "text" }) => {
-
   const { ref, lineCount } = useTextLayout();
   const initialized = useRef(false);
 
