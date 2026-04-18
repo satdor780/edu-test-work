@@ -88,15 +88,20 @@
 .textarea.image .imageWrapper {
   float: left;
   border-radius: 11px;
-  width: 58px;
+  max-width: 58px;
+  width: 100%;
   min-width: calc(58px + 8px);
   height: 58px;
   display: flex !important;
   justify-content: center;
   align-items: center;
   background: #f1f6fd;
-  padding: 0 8px;
+  /* padding: 0 8px; */
   margin-right: 8px;
+}
+
+.textarea.image .imageWrapper .placeholder {
+  padding: 0 8px;
 }
 
 .imageWrapper,
@@ -145,6 +150,19 @@
   border-top-right-radius: 5px;
   border-bottom-right-radius: 24px;
   border-bottom-left-radius: 24px;
+
+  overflow: hidden;
+}
+
+.bigImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bigImage.placeholder img {
+  width: auto;
+  height: auto;
 }
 
 .bigImageContainer {

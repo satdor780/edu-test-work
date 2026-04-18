@@ -15,11 +15,11 @@ export const CardEdit: FC<{
   const updateType = useNotesStore((s) => s.updateType);
 
   const [text, setText] = useState(item.text);
-  const [pendingType, setPendingType] = useState<CardTypes>(item.type); // ← локально
+  const [pendingType, setPendingType] = useState<CardTypes>(item.type);
 
   const saveChanges = () => {
     updateText(item.id, text);
-    updateType(item.id, pendingType); // ← пишем в стор только здесь
+    updateType(item.id, pendingType);
     setEdit(false);
   };
 
@@ -27,11 +27,11 @@ export const CardEdit: FC<{
     switch (pendingType) {
       case "image_top":
         return (
-          <EditBigImage value={text} setText={setText} type="inputBottom" />
+          <EditBigImage value={text} setText={setText} image={item.image} type="inputBottom" />
         );
 
       case "image_bottom":
-        return <EditBigImage value={text} setText={setText} type="inputTop" />;
+        return <EditBigImage value={text} setText={setText} image={item.image} type="inputTop" />;
 
       case "image_left":
         return (
@@ -39,6 +39,7 @@ export const CardEdit: FC<{
             key={pendingType}
             value={text}
             setText={setText}
+            image={item.image}
             type="image"
           />
         );
@@ -86,7 +87,8 @@ const EditBigImage: FC<{
   value: string;
   setText: React.Dispatch<React.SetStateAction<string>>;
   type?: "inputBottom" | "inputTop";
-}> = ({ value, setText, type = "inputTop" }) => {
+  image?: string
+}> = ({ value, setText, type = "inputTop", image }) => {
   return (
     <div
       className={`${styles.bigImageContainer} ${type === "inputBottom" ? styles.bottom : ""}`}
@@ -98,8 +100,8 @@ const EditBigImage: FC<{
         onChange={(e) => setText(e.target.value)}
         placeholder="Write your idea!"
       />
-      <button className={styles.bigImage}>
-        <img src="/add-image.svg" alt="add image" />
+      <button className={`${styles.bigImage} ${!image ? styles.placeholder: ''}`}>
+        <img src={image ? image: '/card-image.png'} alt="add image" />
       </button>
     </div>
   );
@@ -109,7 +111,8 @@ const EditDefault: FC<{
   value: string;
   setText: React.Dispatch<React.SetStateAction<string>>;
   type?: "image" | "text";
-}> = ({ value, setText, type = "text" }) => {
+  image?: string
+}> = ({ value, setText, type = "text", image }) => {
   const { ref, lineCount } = useTextLayout();
   const initialized = useRef(false);
 
@@ -120,9 +123,9 @@ const EditDefault: FC<{
     wrapper.dataset.protected = "true";
 
     const img = document.createElement("img");
-    img.src = "/add-image.svg";
+    img.src = image ? image: '/add-image.svg';
     img.alt = "add image";
-    img.className = styles.inlineImage || "inlineImage";
+    img.className = `${styles.inlineImage || "inlineImage"} ${!image ? styles.placeholder: ''}`
 
     wrapper.appendChild(img);
     return wrapper;

@@ -42,7 +42,7 @@ const DefaultView: FC<{
   const toNewLinePercent =
     blocks.length === 1 ? 0.93 : (100 - blocks.length * 4.5) / 100;
 
-  const isImage = toImage && item.image;
+  const isImage = toImage;
 
   return (
     <div
@@ -54,7 +54,7 @@ const DefaultView: FC<{
     >
       {isImage && (
         <div className={styles.image__block}>
-          <img src={item.image} alt="image" />
+          <img src={item.image ? item.image: "/placeholder-image.jpg"} alt="image" />
         </div>
       )}
 
@@ -111,9 +111,12 @@ const BigImageView: FC<{
       >
         <MoreIcon />
       </button>
+      
       <div className={styles.imageContainer}>
-        <img src="/placeholder-image.jpg" />
+        <img src={item.image ? item.image: "/placeholder-image.jpg"} />
       </div>
+    
+      
       {counterVisible && (
         <div
           className={`${styles.card__counter} ${isNotification ? styles.active : ""}`}
