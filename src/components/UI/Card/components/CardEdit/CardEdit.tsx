@@ -101,8 +101,9 @@ const EditBigImage: FC<{
         placeholder="Write your idea!"
       />
       <button className={`${styles.bigImage} ${!image ? styles.placeholder: ''}`}>
-        <img src={image ? image: '/card-image.png'} alt="add image" />
+        <img src={image ? image: '/card-image.jpg'} alt="add image" />
       </button>
+
     </div>
   );
 };
@@ -176,7 +177,10 @@ const EditDefault: FC<{
 
   const to2Lines = type === "image" ? lineCount / 2 > 2 : lineCount > 2;
 
+
+
   return (
+    <>
     <div
       ref={ref}
       className={`${styles.textarea} ${styles[type]} ${to2Lines ? styles.big : ""}`}
@@ -185,5 +189,7 @@ const EditDefault: FC<{
       onInput={handleInput}
       data-placeholder="Write your idea!"
     />
+    {lineCount}
+    </>
   );
 };

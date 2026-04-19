@@ -90,7 +90,7 @@
   border-radius: 11px;
   max-width: 58px;
   width: 100%;
-  min-width: calc(58px + 8px);
+  min-width: 56px;
   height: 58px;
   display: flex !important;
   justify-content: center;
@@ -98,10 +98,19 @@
   background: #f1f6fd;
   /* padding: 0 8px; */
   margin-right: 8px;
+  overflow: hidden;
 }
 
 .textarea.image .imageWrapper .placeholder {
   padding: 0 8px;
+  width: auto;
+}
+
+.textarea.image
+  .imageWrapper
+  img:not(.textarea.image .imageWrapper img.placeholder) {
+  width: 100%;
+  height: 100%;
 }
 
 .imageWrapper,
