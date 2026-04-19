@@ -89,19 +89,51 @@ const EditBigImage: FC<{
   type?: "inputBottom" | "inputTop";
   image?: string
 }> = ({ value, setText, type = "inputTop", image }) => {
+  const { ref, lineCount } = useTextLayout();
+  const initialized = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || initialized.current) return;
+
+    initialized.current = true;
+    el.innerHTML = value || "";
+    el.dataset.empty = el.innerText.trim() === "" ? "true" : "false";
+  }, []);
+
+  const handleInput = () => {
+    const el = ref.current;
+    if (!el) return;
+
+    const text = el.innerText.trim();
+    if (text === "") {
+      el.innerHTML = ""; // убираем лишний <br> который браузер вставляет
+    }
+    el.dataset.empty = text === "" ? "true" : "false";
+    setText(text);
+  };
   return (
     <div
       className={`${styles.bigImageContainer} ${type === "inputBottom" ? styles.bottom : ""}`}
     >
-      <input
+      {/* <input
         type="text"
         className={styles.bigImageInput}
         value={value}
         onChange={(e) => setText(e.target.value)}
         placeholder="Write your idea!"
+      /> */}
+      <div
+        ref={ref}
+        // className={`${styles.textarea} ${lineCount >= 2 ? styles.big : ""}`}
+        className={`${styles.bigImageInput} ${styles.textAreaPlaceholder}`}
+        contentEditable
+        suppressContentEditableWarning
+        onInput={handleInput}
+        data-placeholder="Write your idea!"
       />
       <button className={`${styles.bigImage} ${!image ? styles.placeholder: ''}`}>
-        <img src={image ? image: '/card-image.jpg'} alt="add image" />
+        <img src={image ? image: '/add-image.svg'} alt="add image" />
       </button>
 
     </div>
@@ -144,7 +176,7 @@ const EditDefault: FC<{
     } else {
       el.querySelector("[data-protected]")?.remove(); // ←
     }
-
+    
     el.dataset.empty = el.innerText.trim() === "" ? "true" : "false";
   }, []);
 
@@ -171,25 +203,25 @@ const EditDefault: FC<{
     }
 
     const text = el.innerText.trim();
+
+    if (text === "") {
+      el.innerHTML = "";
+    }
+    
     el.dataset.empty = text === "" ? "true" : "false";
     setText(text);
   };
 
   const to2Lines = type === "image" ? lineCount / 2 > 2 : lineCount >= 2;
 
-
-
   return (
-    <>
     <div
       ref={ref}
-      className={`${styles.textarea} ${styles[type]} ${to2Lines ? styles.big : ""}`}
+      className={`${styles.textarea} ${styles.textAreaPlaceholder} ${styles[type]} ${to2Lines ? styles.big : ""}`}
       contentEditable
       suppressContentEditableWarning
       onInput={handleInput}
       data-placeholder="Write your idea!"
     />
-    {lineCount}
-    </>
   );
 };

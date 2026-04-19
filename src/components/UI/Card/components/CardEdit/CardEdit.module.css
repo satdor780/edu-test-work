@@ -68,7 +68,7 @@
   white-space: pre-wrap;
 }
 
-.textarea[data-empty="true"]::after {
+.textAreaPlaceholder[data-empty="true"]::after {
   content: attr(data-placeholder);
   color: #b7b7b7;
   pointer-events: none;
@@ -135,11 +135,11 @@
   height: 100%;
 }
 
-.textarea:empty::before {
+/* .textAreaPlaceholder:empty::before {
   content: attr(data-placeholder);
   color: #b7b7b7;
   pointer-events: none;
-}
+} */
 
 .cardHeaderLast {
   display: flex;

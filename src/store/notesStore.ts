@@ -20,7 +20,13 @@ export const useNotesStore = create<NotesStore>((set) => ({
   updateType: (id, type) =>
     set((state) => ({
       notes: state.notes.map((note) =>
-        note.id === id ? { ...note, type } : note,
+        note.id === id
+          ? {
+              ...note,
+              type,
+              ...(type === "default" ? { image: undefined } : {}),
+            }
+          : note,
       ),
     })),
 }));
