@@ -89,7 +89,7 @@ const EditBigImage: FC<{
   type?: "inputBottom" | "inputTop";
   image?: string
 }> = ({ value, setText, type = "inputTop", image }) => {
-  const { ref, lineCount } = useTextLayout();
+  const ref = useRef<HTMLDivElement>(null)
   const initialized = useRef(false);
 
   useEffect(() => {
@@ -107,7 +107,7 @@ const EditBigImage: FC<{
 
     const text = el.innerText.trim();
     if (text === "") {
-      el.innerHTML = ""; // убираем лишний <br> который браузер вставляет
+      el.innerHTML = "";
     }
     el.dataset.empty = text === "" ? "true" : "false";
     setText(text);
@@ -116,16 +116,8 @@ const EditBigImage: FC<{
     <div
       className={`${styles.bigImageContainer} ${type === "inputBottom" ? styles.bottom : ""}`}
     >
-      {/* <input
-        type="text"
-        className={styles.bigImageInput}
-        value={value}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="Write your idea!"
-      /> */}
       <div
         ref={ref}
-        // className={`${styles.textarea} ${lineCount >= 2 ? styles.big : ""}`}
         className={`${styles.bigImageInput} ${styles.textAreaPlaceholder}`}
         contentEditable
         suppressContentEditableWarning
@@ -135,7 +127,6 @@ const EditBigImage: FC<{
       <button className={`${styles.bigImage} ${!image ? styles.placeholder: ''}`}>
         <img src={image ? image: '/add-image.svg'} alt="add image" />
       </button>
-
     </div>
   );
 };
