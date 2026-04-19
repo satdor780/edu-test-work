@@ -175,7 +175,7 @@ const EditDefault: FC<{
     setText(text);
   };
 
-  const to2Lines = type === "image" ? lineCount / 2 > 2 : lineCount > 2;
+  const to2Lines = type === "image" ? lineCount / 2 > 2 : lineCount >= 2;
 
 
 
