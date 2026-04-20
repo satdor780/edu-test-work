@@ -74,6 +74,7 @@
   background: linear-gradient(239.93deg, #3fccff -26.89%, #068dfb 70.78%);
   box-shadow: 0px 1px 5.3px 0px #149dff36;
   color: #fff;
+  border: none;
 }
 
 .card_multiline_last_line_filled .card__text {
@@ -86,6 +87,12 @@
   min-width: 59px;
   border-radius: 13px;
   overflow: hidden;
+  box-sizing: border-box;
+}
+
+.image__block.placeholder {
+  padding: 0 8px;
+  background: #f1f6fd;
 }
 
 .image__block img {
@@ -145,13 +152,23 @@
 .bigImage .imageContainer {
   height: 181px;
   width: 100%;
-
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
-
   overflow: hidden;
+}
+
+.bigImage .imageContainer.placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f1f6fd;
+}
+
+.bigImage .imageContainer.placeholder img {
+  width: auto;
+  height: auto;
 }
 
 .bigImage.bottom .imageContainer {

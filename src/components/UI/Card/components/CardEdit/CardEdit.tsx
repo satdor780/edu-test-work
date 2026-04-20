@@ -27,11 +27,23 @@ export const CardEdit: FC<{
     switch (pendingType) {
       case "image_top":
         return (
-          <EditBigImage value={text} setText={setText} image={item.image} type="inputBottom" />
+          <EditBigImage
+            value={text}
+            setText={setText}
+            image={item.image}
+            type="inputBottom"
+          />
         );
 
       case "image_bottom":
-        return <EditBigImage value={text} setText={setText} image={item.image} type="inputTop" />;
+        return (
+          <EditBigImage
+            value={text}
+            setText={setText}
+            image={item.image}
+            type="inputTop"
+          />
+        );
 
       case "image_left":
         return (
@@ -73,6 +85,7 @@ export const CardEdit: FC<{
           <button
             className={`${styles.backButton} ${text.length > 0 ? styles.active : ""}`}
             onClick={saveChanges}
+            disabled={!(text.length > 0)}
           >
             <ArrowIcon />
           </button>
@@ -87,9 +100,9 @@ const EditBigImage: FC<{
   value: string;
   setText: React.Dispatch<React.SetStateAction<string>>;
   type?: "inputBottom" | "inputTop";
-  image?: string
+  image?: string;
 }> = ({ value, setText, type = "inputTop", image }) => {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement>(null);
   const initialized = useRef(false);
 
   useEffect(() => {
@@ -124,8 +137,10 @@ const EditBigImage: FC<{
         onInput={handleInput}
         data-placeholder="Write your idea!"
       />
-      <button className={`${styles.bigImage} ${!image ? styles.placeholder: ''}`}>
-        <img src={image ? image: '/add-image.svg'} alt="add image" />
+      <button
+        className={`${styles.bigImage} ${!image ? styles.placeholder : ""}`}
+      >
+        <img src={image ? image : "/add-image.svg"} alt="add image" />
       </button>
     </div>
   );
@@ -135,7 +150,7 @@ const EditDefault: FC<{
   value: string;
   setText: React.Dispatch<React.SetStateAction<string>>;
   type?: "image" | "text";
-  image?: string
+  image?: string;
 }> = ({ value, setText, type = "text", image }) => {
   const { ref, lineCount } = useTextLayout();
   const initialized = useRef(false);
@@ -147,9 +162,9 @@ const EditDefault: FC<{
     wrapper.dataset.protected = "true";
 
     const img = document.createElement("img");
-    img.src = image ? image: '/add-image.svg';
+    img.src = image ? image : "/add-image.svg";
     img.alt = "add image";
-    img.className = `${styles.inlineImage || "inlineImage"} ${!image ? styles.placeholder: ''}`
+    img.className = `${styles.inlineImage || "inlineImage"} ${!image ? styles.placeholder : ""}`;
 
     wrapper.appendChild(img);
     return wrapper;
@@ -164,10 +179,13 @@ const EditDefault: FC<{
 
     if (type === "image") {
       el.prepend(createImageWrapper());
+      if (!el.querySelector("[data-protected]")?.nextSibling) {
+        el.appendChild(document.createElement("br"));
+      }
     } else {
-      el.querySelector("[data-protected]")?.remove(); // ←
+      el.querySelector("[data-protected]")?.remove();
     }
-    
+
     el.dataset.empty = el.innerText.trim() === "" ? "true" : "false";
   }, []);
 
@@ -195,12 +213,37 @@ const EditDefault: FC<{
 
     const text = el.innerText.trim();
 
-    if (text === "") {
+    if (type === "text" && text === "") {
       el.innerHTML = "";
     }
-    
+
     el.dataset.empty = text === "" ? "true" : "false";
     setText(text);
+  };
+
+  const handleClick = () => {
+    if (type !== "image") return;
+    const el = ref.current;
+    if (!el) return;
+
+    const protectedEl = el.querySelector("[data-protected]");
+    // Есть ли текстовая нода после враппера?
+    const hasTextAfter =
+      protectedEl?.nextSibling &&
+      (protectedEl.nextSibling.nodeType === Node.TEXT_NODE ||
+        protectedEl.nextSibling.nodeName === "BR");
+
+    if (!hasTextAfter) {
+      const br = document.createElement("br");
+      el.appendChild(br);
+      const range = document.createRange();
+      const sel = window.getSelection();
+      range.setStartAfter(br);
+      range.collapse(true);
+      sel?.removeAllRanges();
+      sel?.addRange(range);
+      el.focus();
+    }
   };
 
   const to2Lines = type === "image" ? lineCount / 2 > 2 : lineCount >= 2;
@@ -212,6 +255,7 @@ const EditDefault: FC<{
       contentEditable
       suppressContentEditableWarning
       onInput={handleInput}
+      onClick={handleClick}
       data-placeholder="Write your idea!"
     />
   );

@@ -53,8 +53,10 @@ const DefaultView: FC<{
         ${lastLineFillPercent >= toNewLinePercent && counterVisible ? styles.card_multiline_last_line_filled : ""}`}
     >
       {isImage && (
-        <div className={styles.image__block}>
-          <img src={item.image ? item.image: "/placeholder-image.jpg"} alt="image" />
+        <div
+          className={`${styles.image__block} ${!item.image ? styles.placeholder : ""}`}
+        >
+          <img src={item.image ? item.image : "/add-image.svg"} alt="image" />
         </div>
       )}
 
@@ -111,12 +113,13 @@ const BigImageView: FC<{
       >
         <MoreIcon />
       </button>
-      
-      <div className={styles.imageContainer}>
-        <img src={item.image ? item.image: "/placeholder-image.jpg"} />
+
+      <div
+        className={`${styles.imageContainer} ${!item.image ? styles.placeholder : ""}`}
+      >
+        <img src={item.image ? item.image : "/add-image.svg"} alt="image" />
       </div>
-    
-      
+
       {counterVisible && (
         <div
           className={`${styles.card__counter} ${isNotification ? styles.active : ""}`}

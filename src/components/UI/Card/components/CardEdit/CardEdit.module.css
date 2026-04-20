@@ -96,7 +96,6 @@
   justify-content: center;
   align-items: center;
   background: #f1f6fd;
-  /* padding: 0 8px; */
   margin-right: 8px;
   overflow: hidden;
 }
@@ -134,12 +133,6 @@
   padding: 15px 16px 17px;
   height: 100%;
 }
-
-/* .textAreaPlaceholder:empty::before {
-  content: attr(data-placeholder);
-  color: #b7b7b7;
-  pointer-events: none;
-} */
 
 .cardHeaderLast {
   display: flex;
@@ -187,7 +180,7 @@
   line-height: 140%;
   letter-spacing: 0%;
   vertical-align: middle;
-  padding: 0 15px;
+  padding: 0 16px;
   margin: 16px 0 8px;
   color: #4b4b4b;
   width: 100%;
