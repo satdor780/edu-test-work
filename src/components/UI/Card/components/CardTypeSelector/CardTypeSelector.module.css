@@ -30,7 +30,7 @@
 }
 
 .option > svg {
-  min-width: 22px;
+  max-width: 70%;
   height: auto;
 }
 
@@ -55,5 +55,14 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: 6px;
+  box-sizing: border-box;
+}
+
+.trigger > svg {
+  max-width: 55%;
+  height: auto;
+}
+
+.trigger.image_left > svg {
+  max-width: 75%;
 }

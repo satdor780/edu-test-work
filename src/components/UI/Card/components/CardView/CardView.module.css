@@ -48,6 +48,8 @@
   overflow-wrap: break-word;
   word-break: break-word;
   min-width: 0;
+
+  color: #3b4552;
 }
 
 .card__counter {

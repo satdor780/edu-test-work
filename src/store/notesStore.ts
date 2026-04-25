@@ -24,7 +24,6 @@ export const useNotesStore = create<NotesStore>((set) => ({
           ? {
               ...note,
               type,
-              ...(type === "default" ? { image: undefined } : {}),
             }
           : note,
       ),
