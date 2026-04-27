@@ -1,3 +1,38 @@
 .wrapper {
   display: contents;
 }
+
+.wrap {
+  border-radius: 25px;
+  transition:
+    background 0.15s,
+    box-shadow 0.15s;
+  cursor: pointer;
+
+  width: fit-content;
+  min-width: 345px;
+}
+
+.wrap.focused {
+  box-shadow: 0 0 0 1px #34b8ff;
+  /* border: 1px solid #34B8FF;
+
+border-image-source: linear-gradient(230.09deg, #2BD1FF -50.42%, #34B8FF 33.26%, #229CFD 113.78%); */
+}
+
+.wrap.selected {
+  background: #f1f6fd;
+}
+
+/* в режиме редактирования — всегда белый, рамка всегда есть */
+.wrap.editing {
+  /* box-shadow: 0 0 0 1px #34b8ff; */
+  cursor: default;
+}
+
+/* карточка внутри выделенного блока не должна давать свою тень */
+.wrap.selected .wraps,
+.wrap.editing .wraps {
+  box-shadow: none;
+  background: transparent;
+}
