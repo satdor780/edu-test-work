@@ -8,7 +8,7 @@ import type { FC } from "react";
 
 export const CardView: FC<{
   item: ICardType;
-  setEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  setEdit: (val: boolean) => void;
 }> = ({ item, setEdit }) => {
   switch (item.type) {
     case "image_top":
@@ -28,7 +28,7 @@ export const CardView: FC<{
 
 const DefaultView: FC<{
   item: ICardType;
-  setEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  setEdit: (val: boolean) => void;
   toImage?: boolean;
 }> = ({ item, setEdit, toImage }) => {
   const { ref, lineCount, lastLineFillPercent } = useTextLayout();
@@ -84,7 +84,7 @@ const DefaultView: FC<{
 
 const BigImageView: FC<{
   item: ICardType;
-  setEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  setEdit: (val: boolean) => void;
   type: "top" | "bottom";
 }> = ({ item, setEdit, type }) => {
   const { ref, lineCount, lastLineFillPercent } = useTextLayout();

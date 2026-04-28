@@ -8,7 +8,7 @@ import type { CardTypes, ICardType } from "@/types";
 import { useNotesStore } from "@/store";
 
 export const CardEdit: FC<{
-  setEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  setEdit: (val: boolean) => void;
   item: ICardType;
 }> = ({ setEdit, item }) => {
   const updateText = useNotesStore((s) => s.updateText);
@@ -227,7 +227,6 @@ const EditDefault: FC<{
     if (!el) return;
 
     const protectedEl = el.querySelector("[data-protected]");
-    // Есть ли текстовая нода после враппера?
     const hasTextAfter =
       protectedEl?.nextSibling &&
       (protectedEl.nextSibling.nodeType === Node.TEXT_NODE ||
