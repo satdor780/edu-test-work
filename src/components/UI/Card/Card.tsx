@@ -32,6 +32,7 @@ export const Card: FC<{ item: ICardType; idx: number }> = ({ item, idx }) => {
       setEditingId(item.id);
     } else {
       setEditingId(null);
+       document.querySelector<HTMLElement>('[tabindex="0"]')?.focus();
     }
   };
 

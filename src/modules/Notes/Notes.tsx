@@ -42,7 +42,6 @@ export const Notes = () => {
     <div
       ref={containerRef}
       tabIndex={0}
-      onFocus={() => containerRef.current?.focus()}
       style={{
         padding: 32,
         display: "flex",
