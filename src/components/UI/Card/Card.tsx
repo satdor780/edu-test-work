@@ -37,14 +37,10 @@ export const Card: FC<{ item: ICardType; idx: number }> = ({ item, idx }) => {
 
   return (
     <div
-      className={[
-        styles.wrap,
-        isFocused ? styles.focused : "",
-        isSelected ? styles.selected : "",
-        isEditing ? styles.editing : "",
-      ]
-        .filter(Boolean)
-        .join(" ")}
+      className={`${styles.wrap}
+        ${isFocused ? styles.focused : ""}
+        ${isSelected ? styles.selected : ""}
+        ${isEditing ? styles.editing : ""}`}
       onMouseEnter={handleMouseEnter}
       onClick={handleClick}
     >

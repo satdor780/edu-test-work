@@ -42,7 +42,7 @@ export const CardTypeSelector: FC<{
 
   const SelectedIcon = icons[CARD_TYPES.indexOf(selected)];
 
-  console.log(selected)
+  console.log(selected);
 
   return (
     <div className={styles.wrapper} ref={wrapperRef}>
@@ -63,7 +63,7 @@ export const CardTypeSelector: FC<{
         </div>
       )}
       <button
-        className={`${styles.trigger} ${selected === 'image_left' ? styles.image_left: ''} `}
+        className={`${styles.trigger} ${selected === "image_left" ? styles.image_left : ""} `}
         onClick={() => setOpen((prev) => !prev)}
       >
         <SelectedIcon />
